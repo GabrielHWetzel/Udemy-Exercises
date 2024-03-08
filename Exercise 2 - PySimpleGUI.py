@@ -1,14 +1,27 @@
 import PySimpleGUI as sg
+from Functions import FeetInchCovertor as fic
 
-label1 = sg.Text("Enter feet:")
-input1 = sg.Input()
-label2 = sg.Text("Enter inches:")
-input2 = sg.Input()
-button = sg.Button("Convert")
+feet_label = sg.Text("Enter feet:")
+feet_input = sg.Input(key="feet")
+
+inch_label = sg.Text("Enter inches:")
+inch_input = sg.Input(key="inch")
+
+convert = sg.Button("Convert")
+meter_text = sg.Text()
 
 window = sg.Window("Convertor",
-                   layout=[[label1, input1],
-                           [label2, input2],
-                           [button]])
-window.read()
+                   layout=[[feet_label, feet_input],
+                           [inch_label, inch_input],
+                           [convert, meter_text]])
+while True:
+    event, values = window.read()
+    print(event, values)
+    match event:
+        case "Convert":
+            meter_text.update(f"{fic.convert(float(values['feet']),float(values['inch']))} meters")
+        # Quit
+        case sg.WINDOW_CLOSED:
+            break
+
 window.close()
