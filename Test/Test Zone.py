@@ -1,18 +1,28 @@
 import PySimpleGUI as sg
 
-label = sg.Text("What are dolphins?")
-option1 = sg.Radio("Amphibians", group_id="question1")
-option2 = sg.Radio("Fish", group_id="question1")
-option3 = sg.Radio("Mammals", group_id="question1")
-option4 = sg.Radio("Birds", group_id="question1")
 
-window = sg.Window("File Compressor",
-                   layout=[[label],
-                           [option1],
-                            [option2],
-                            [option3],
-                            [option4],
-                            ])
+def km_to_miles(km):
+    return float(km) / 1.6
 
-window.read()
+
+label = sg.Text("Kilometers: ")
+input_box = sg.InputText(tooltip="Enter todo", key="kms")
+miles_button = sg.Button("Convert")
+
+output = sg.Text(key="output")
+
+window = sg.Window('Km to Miles Converter',
+                   layout=[[label, input_box], [miles_button, output]],
+                   font=('Helvetica', 20))
+
+while True:
+    event, values = window.read()
+    match event:
+        case "Convert":
+            km = values["kms"]
+            result = km_to_miles(km)
+            window['output'].update(value=result)
+        case sg.WIN_CLOSED:
+            break
+
 window.close()
