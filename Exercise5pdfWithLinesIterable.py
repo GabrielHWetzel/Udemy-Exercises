@@ -15,9 +15,8 @@ for index, row in df.iterrows():
     pdf.cell(w=0, h=12, txt=row["Topic"], align="C", ln=1)
 
     # Exercise area
-    pdf.line(10, 23, 200, 23)
-    pdf.line(10, 33, 200, 33)
-    pdf.line(10, 283, 200, 283)
+    for i in range(23, 284, 10):
+        pdf.line(10, i, 200, i)
 
     # Footer
     pdf.ln(265)
@@ -29,5 +28,8 @@ for index, row in df.iterrows():
         pdf.add_page()
         pdf.ln(277)
         pdf.cell(w=0, h=10, txt=row["Topic"], align="R")
+
+        for i in range(23, 284, 10):
+            pdf.line(10, i, 200, i)
 
 pdf.output("Files/output.pdf")
