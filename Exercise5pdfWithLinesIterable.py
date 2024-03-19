@@ -16,6 +16,8 @@ for index, row in df.iterrows():
 
     # Exercise area
     pdf.line(10, 23, 200, 23)
+    pdf.line(10, 33, 200, 33)
+    pdf.line(10, 283, 200, 283)
 
     # Footer
     pdf.ln(265)
