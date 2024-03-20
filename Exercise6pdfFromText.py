@@ -11,13 +11,13 @@ for filepath in filepaths:
 
     filename = Path(filepath).stem.title()
     with open(filepath, 'r') as file:
-        file_text = file.readline()
+        file_text = file.read()
 
     pdf.add_page()
     pdf.set_font(family="Helvetica", size=22, style="B")
     pdf.cell(w=0, h=15, txt=filename, ln=1)
 
     pdf.set_font(family="Helvetica", size=12)
-    pdf.multi_cell(w=0, h=6, txt=file_text)
+    pdf.multi_cell(w=0, h=6, txt=str(file_text))
 
 pdf.output("Exercise6/pdf.pdf")
