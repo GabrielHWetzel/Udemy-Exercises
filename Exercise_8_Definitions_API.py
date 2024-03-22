@@ -10,8 +10,10 @@ def home():
 
 @app.route("/api/v1/<word>")
 def api(word):
-    return {"definition": word.upper(),
-            "word": word}
+    definition = word.upper()
+    result = {"word": word,
+              "definition": definition}
+    return result
 
 
 if __name__ == "__main__":
