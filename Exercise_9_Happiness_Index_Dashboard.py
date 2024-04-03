@@ -2,15 +2,6 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-
-def get_data(x, y):
-    x = x.lower().replace(" ", "_")
-    y = y.lower().replace(" ", "_")
-    x = df[x]
-    y = df[y]
-    return x, y
-
-
 # Initial calls
 df = pd.read_csv("Files/happy.csv")
 options = ("Happiness",
@@ -21,7 +12,6 @@ options = ("Happiness",
            "Generosity",
            "Corruption")
 
-
 # Page
 st.title("Happiness Index Plot")
 
@@ -30,7 +20,9 @@ y_option = st.selectbox("Select the data for the Y-axis", options)
 
 st.subheader(f"{x_option} and {y_option}")
 
-x_data, y_data = get_data(x_option, y_option)
+# Get data
+x_data = df[x_option.lower().replace(" ", "_")]
+y_data = df[y_option.lower().replace(" ", "_")]
 
 # Chart
 figure = px.scatter(x=x_data, y=y_data, labels={"x": x_option, "y": y_option})
