@@ -1,6 +1,10 @@
+import time
 import requests
 import selectorlib
 from datetime import datetime
+import streamlit as st
+import pandas
+import plotly.express as px
 
 URL = "https://programmer100.pythonanywhere.com"
 HEADERS = {
@@ -26,5 +30,16 @@ def store(data):
         file.write(f"{now},{data}\n")
 
 
-if __name__ == "__main__":
-    store(extract(scrape(URL)))
+def gather_data():
+    scrapped = scrape(URL)
+    extracted = extract(scrapped)
+    store(extracted)
+
+
+gather_data()
+
+# Plot stuff
+graph_data = pandas.read_csv("Exercise12/data")
+figure = px.line(x=graph_data["date"], y=graph_data["temperature"], labels={"x": "Dates", "y": "Temperatures"})
+st.plotly_chart(figure)
+st.button("refresh")
