@@ -1,14 +1,16 @@
-import time
 import requests
 import selectorlib
 from datetime import datetime
 import streamlit as st
 import pandas
 import plotly.express as px
+import sqlite3
 
 URL = "https://programmer100.pythonanywhere.com"
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+
+connection = sqlite3.connect("Exercise12/data.db")
 
 
 def scrape(url):
@@ -26,8 +28,15 @@ def extract(source):
 def store(data):
     now = datetime.now()
     now = now.strftime("%Y-%m-%d %H:%M:%S")
-    with open("Exercise12/data", 'a') as file:
-        file.write(f"{now},{data}\n")
+    cursor = connection.cursor()
+    cursor.execute("INSERT INTO temperatures VALUES (?,?)", (now, data))
+    connection.commit()
+
+
+def retrieve():
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM temperatures")
+    print(cursor.fetchall())
 
 
 def gather_data():
@@ -36,10 +45,10 @@ def gather_data():
     store(extracted)
 
 
-gather_data()
+retrieve()
 
 # Plot stuff
-graph_data = pandas.read_csv("Exercise12/data")
-figure = px.line(x=graph_data["date"], y=graph_data["temperature"], labels={"x": "Dates", "y": "Temperatures"})
-st.plotly_chart(figure)
-st.button("refresh")
+#graph_data = pandas.read_csv("Exercise12/data")
+#figure = px.line(x=graph_data["date"], y=graph_data["temperature"], labels={"x": "Dates", "y": "Temperatures"})
+#st.plotly_chart(figure)
+#st.button("refresh")
