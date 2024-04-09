@@ -35,8 +35,13 @@ def store(data):
 
 def retrieve():
     cursor = connection.cursor()
-    cursor.execute("SELECT * FROM temperatures")
-    return cursor.fetchall()
+    cursor.execute("SELECT date FROM temperatures")
+    dates = cursor.fetchall()
+    dates = [item[0] for item in dates]
+    cursor.execute("SELECT temperature FROM temperatures")
+    temperatures = cursor.fetchall()
+    temperatures = [item[0] for item in temperatures]
+    return dates, temperatures
 
 
 def gather_data():
@@ -48,11 +53,8 @@ def gather_data():
 gather_data()
 
 # Plot stuff
-date = []
-temperature = []
-for item in retrieve():
-    date.append(item[0])
-    temperature.append(item[1])
+date, temperature = retrieve()
+print(date, temperature)
 figure = px.line(x=date, y=temperature, labels={"x": "Dates", "y": "Temperatures"})
 st.plotly_chart(figure)
 st.button("refresh")
