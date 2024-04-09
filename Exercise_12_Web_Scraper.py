@@ -35,12 +35,10 @@ def store(data):
 
 def retrieve():
     cursor = connection.cursor()
-    cursor.execute("SELECT date FROM temperatures")
-    dates = cursor.fetchall()
-    dates = [item[0] for item in dates]
-    cursor.execute("SELECT temperature FROM temperatures")
-    temperatures = cursor.fetchall()
-    temperatures = [item[0] for item in temperatures]
+    cursor.execute("SELECT * FROM temperatures")
+    retrieved = cursor.fetchall()
+    dates = [item[0] for item in retrieved]
+    temperatures = [item[1] for item in retrieved]
     return dates, temperatures
 
 
